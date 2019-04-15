@@ -10,71 +10,22 @@ public class Solution {
 
     // Complete the flippingMatrix function below.
 
-    //TODO not working
     static int flippingMatrix(int[][] matrix) {
 
         int n = matrix.length / 2;
 
-        int colIndex = 0;
-        int maxColDifference = 0;
-        for (int row = 0; row < matrix.length; row++) {
-            int currentDiff = 0;
-            for (int i = 0; i < matrix.length; i++) {
-                if (i <  n) {
-                    currentDiff -= matrix[row][i];
-                } else {
-                    currentDiff += matrix[row][i];
-                }
-            }
-            if (currentDiff > maxColDifference) {
-                maxColDifference = currentDiff;
-                colIndex = row;
-            }
-        }
-
-        int rowIndex = 0;
-        int maxRowDifference = 0;
-        for (int col = 0; col < matrix[0].length; col++) {
-            int currentDiff = 0;
-            for (int i = 0; i < matrix.length; i++) {
-                if (i <  n) {
-                    currentDiff -= matrix[i][col];
-                } else {
-                    currentDiff += matrix[i][col];
-                }
-            }
-            if (currentDiff > maxRowDifference) {
-                maxRowDifference = currentDiff;
-                rowIndex = col;
-            }
-        }
-
-        if (maxColDifference > maxRowDifference) {
-            // Flip column
-            reverse(matrix[colIndex]);
-        } else {
-            for (int i = 0; i < matrix[colIndex].length / 2; i++) {
-                int temp = matrix[colIndex][i];
-                matrix[colIndex][i] = matrix[colIndex][matrix[colIndex].length - i - 1];
-                matrix[colIndex][matrix[colIndex].length - i - 1] = temp;
-            }
-        }
-
         int sum = 0;
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                sum += matrix[i][j];
+        for (int row = 0; row < n; row++) {
+            for (int col = 0; col < n; col++) {
+                int topLeft = matrix[row][col];
+                int topRight = matrix[row][(2*n) - col - 1];
+                int botLeft = matrix[(2*n) - row - 1][col];
+                int botRight = matrix[(2*n) - row - 1][(2*n) - col - 1];
+
+                sum += Math.max(Math.max(topLeft, topRight), Math.max(botLeft, botRight));
             }
         }
         return sum;
-    }
-
-    private static void reverse(int[] arr) {
-        for (int i = 0; i < arr.length / 2; i++) {
-            int temp = arr[i];
-            arr[i] = arr[arr.length - i - 1];
-            arr[arr.length - i - 1] = temp;
-        }
     }
 
     private static final Scanner scanner = new Scanner(System.in);
