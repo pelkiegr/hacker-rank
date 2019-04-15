@@ -12,7 +12,25 @@ public class Solution {
     static void minimumBribes(int[] q) {
         // ie 2 1 5 3 4
 
-        
+        int overtakes = 0;
+        for (int i = 1; i < q.length - 1; i++) {
+            int previous = q[i-1];
+            int next = q[i+1];
+            int current = q[i];
+
+            if ((i == 1 && Math.abs(current - previous) > 2)
+                    || (Math.abs(current - previous) > 2 && Math.abs(current - next) > 2)) {
+                System.out.println("Too chaotic");
+                return;
+            }
+
+            if (previous > next) {
+                overtakes+=2;
+            } else if (previous > current) {
+                overtakes++;
+            }
+        }
+        System.out.println(overtakes);
     }
 
     private static final Scanner scanner = new Scanner(System.in);
